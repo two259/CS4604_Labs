@@ -161,14 +161,14 @@ Run Time: real 0.000 user 0.000000 sys 0.000098
 Does the update took less time without the indexes? 
 Your answer:
 ```
-
+From my findings, the update took longer without the indexes. With the indexes, the system time was 0.000036, and without, was 0.000098. However, the user time with indexes was 0.000066, and without indexes was 0.000000. In the terms of system time, the update took longer without the indexes.
 ```
 
 Describe your findings of this Lab 5 from the recorded outputs, is everything working fine? or is anything not working? etc. Please indicate your SQLite version:
 
 ```
-SQLite version: 
-Findings:
+SQLite version: 3.26.0 2018-12-01 12:34:55 bf8c1b2b7a5960c282e543b9c293686dccff272512d08865f4600fb58238alt1
+Findings: In this lab, everything appeared to work fine. I was using the above version of sqlite3 on rlogin. Some of the queries appeared to speed things up using indexes, and others made it slow down, for example when we were querying for the race = 'totem', the second index created appeared to slow down the query, from 0.000013 with one index to 0.000015 with two indexes. I believe this portion was to show what was meant when the specification said "create the indexes you need, but only the indexes you need".
 
 
 ```
