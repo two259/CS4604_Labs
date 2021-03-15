@@ -61,6 +61,13 @@ Record output below:
 QUERY PLAN
 `--SCAN TABLE big_cards
 Run Time: real 0.000 user 0.000037 sys 0.000011
+
+AFTER CHANGES DESCRIBED IN FINDINGS:
+
+QUERY PLAN
+`--SCAN TABLE big_cards
+2886656
+Run Time: real 0.832 user 0.062769 sys 0.236526
 ```
 
 #### Using Indexes to improve performance
@@ -79,6 +86,13 @@ Record output below:
 QUERY PLAN
 `--SCAN TABLE big_cards
 Run Time: real 0.000 user 0.000074 sys 0.000027
+
+AFTER CHANGES DESCRIBED IN FINDINGS:
+
+QUERY PLAN
+`--SCAN TABLE big_cards
+** Other output excluded **
+Run Time: real 0.920 user 0.272728 sys 0.301368
 ```
 
 You suspect that an index on the race column will help. Let's create it.
@@ -93,6 +107,13 @@ Record output below:
 QUERY PLAN
 `--SEARCH TABLE big_cards USING INDEX IDX1_big_cards (race=?)
 Run Time: real 0.000 user 0.000038 sys 0.000013
+
+AFTER CHANGES DESCRIBED IN FINDINGS:
+
+QUERY PLAN
+`--SEARCH TABLE big_cards USING INDEX IDX1_big_cards (race=?)
+** Other output excluded **
+Run Time: real 1.386 user 0.029565 sys 0.068280
 ```
 
 Would it be possible to satisfy the query with an index only and further speed up the query?
@@ -107,6 +128,13 @@ Record output below:
 QUERY PLAN
 `--SEARCH TABLE big_cards USING COVERING INDEX IDX2_big_cards (race=?)
 Run Time: real 0.001 user 0.000053 sys 0.000015
+
+AFTER CHANGES DESCRIBED IN FINDINGS:
+
+QUERY PLAN
+`--SEARCH TABLE big_cards USING COVERING INDEX IDX2_big_cards (race=?)
+** Other output excluded **
+Run Time: real 0.023 user 0.006131 sys 0.015401
 ```
 
 If you issue command `VACUUM big_cards;` and re-analyze you will likely see an explain plan that *is* satisfied by the index (and consequently much faster). However, subsequent updates to the table would cause this query to go back to the table to check the visibility map.
@@ -121,6 +149,13 @@ Record output below:
 QUERY PLAN
 `--SEARCH TABLE big_cards USING COVERING INDEX IDX2_big_cards (race=?)
 Run Time: real 0.039 user 0.000000 sys 0.037139
+
+AFTER CHANGES DESCRIBED IN FINDINGS:
+
+QUERY PLAN
+`--SEARCH TABLE big_cards USING COVERING INDEX IDX2_big_cards (race=?)
+** Other output excluded **
+Run Time: real 0.055 user 0.005092 sys 0.046755
 ```
 
 #### The performance cost of Indexes 
@@ -139,6 +174,12 @@ Record output below:
 QUERY PLAN
 `--SCAN TABLE big_cards
 Run Time: real 0.000 user 0.000066 sys 0.000036
+
+AFTER CHANGES DESCRIBED IN FINDINGS:
+
+QUERY PLAN
+`--SCAN TABLE big_cards
+Run Time: real 144.108 user 21.554400 sys 25.051749
 ```
 
 
@@ -156,25 +197,29 @@ Record output below:
 QUERY PLAN
 `--SCAN TABLE big_cards
 Run Time: real 0.000 user 0.000000 sys 0.000098
+
+AFTER CHANGES DESCRIBED IN FINDINGS:
+
+QUERY PLAN
+`--SCAN TABLE big_cards
+Run Time: real 8.520 user 1.973711 sys 2.243990
 ```
 
 Does the update took less time without the indexes? 
 Your answer:
 ```
-From my findings, the update took longer without the indexes. With the indexes, the system time was 0.000036, and without, 
-was 0.000098. However, the user time with indexes was 0.000066, and without indexes was 0.000000. In the terms of system time, 
-the update took longer without the indexes.
+From my findings, the update took significantly less time without the indexes, especially when I ran it the correct way after I made the changes described below.
 ```
 
 Describe your findings of this Lab 5 from the recorded outputs, is everything working fine? or is anything not working? etc. Please indicate your SQLite version:
 
 ```
 SQLite version: 3.26.0 2018-12-01 12:34:55 bf8c1b2b7a5960c282e543b9c293686dccff272512d08865f4600fb58238alt1
-Findings: In this lab, everything appeared to work fine. I was using the above version of sqlite3 on rlogin. 
-Some of the queries appeared to speed things up using indexes, and others made it slow down, 
-for example when we were querying for the race = 'totem', the second index created appeared to slow down the query 
-from 0.000013 with one index to 0.000015 with two indexes. I believe this portion was to show what was meant when the 
-specification said "create the indexes you need, but only the indexes you need".
+Findings: In this lab, I made it all the way through the queries and noticed that the queries were not being executed and outputting like they should be. 
+When running the queries without the Explain Query Plan, I noticed that they took considerably longer to execute, and also produced the output that the user would want.
+That is when I discovered that you can turn on the Explain Query Plan by using .eqp ON. Then, when you execute the normal statements without the Explain Query Plan prefix, 
+the commands will run as normal and produce the output, but also still give the Explain Query Plan output. Therefore, as shown above in all of the recorded outputs, I included
+both the times that I ran before the change, and also the ones after the change.
 
 
 ```
