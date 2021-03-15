@@ -104,7 +104,9 @@ Would it be possible to satisfy the query with an index only and further speed u
 Record output below:
 
 ```
-
+QUERY PLAN
+`--SEARCH TABLE big_cards USING COVERING INDEX IDX2_big_cards (race=?)
+Run Time: real 0.001 user 0.000053 sys 0.000015
 ```
 
 If you issue command `VACUUM big_cards;` and re-analyze you will likely see an explain plan that *is* satisfied by the index (and consequently much faster). However, subsequent updates to the table would cause this query to go back to the table to check the visibility map.
