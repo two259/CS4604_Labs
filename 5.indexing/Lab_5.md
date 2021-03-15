@@ -208,17 +208,22 @@ Run Time: real 8.520 user 1.973711 sys 2.243990
 Does the update took less time without the indexes? 
 Your answer:
 ```
-From my findings, the update took significantly less time without the indexes, especially when I ran it the correct way after I made the changes described below.
+From my findings, the update took significantly less time without the indexes, 
+especially when I ran it the correct way after I made the changes described below.
 ```
 
 Describe your findings of this Lab 5 from the recorded outputs, is everything working fine? or is anything not working? etc. Please indicate your SQLite version:
 
 ```
 SQLite version: 3.26.0 2018-12-01 12:34:55 bf8c1b2b7a5960c282e543b9c293686dccff272512d08865f4600fb58238alt1
-Findings: In this lab, I made it all the way through the queries and noticed that the queries were not being executed and outputting like they should be. 
-When running the queries without the Explain Query Plan, I noticed that they took considerably longer to execute, and also produced the output that the user would want.
-That is when I discovered that you can turn on the Explain Query Plan by using .eqp ON. Then, when you execute the normal statements without the Explain Query Plan prefix, 
-the commands will run as normal and produce the output, but also still give the Explain Query Plan output. Therefore, as shown above in all of the recorded outputs, I included
+Findings: In this lab, I made it all the way through the queries and noticed that the queries 
+were not being executed and outputting like they should be. 
+When running the queries without the Explain Query Plan, I noticed that they took considerably 
+longer to execute, and also produced the output that the user would want.
+That is when I discovered that you can turn on the Explain Query Plan by using .eqp ON. 
+Then, when you execute the normal statements without the Explain Query Plan prefix, 
+the commands will run as normal and produce the output, but also still give the Explain Query Plan output. 
+Therefore, as shown above in all of the recorded outputs, I included
 both the times that I ran before the change, and also the ones after the change.
 
 
