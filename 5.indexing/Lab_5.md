@@ -153,7 +153,9 @@ Now let's drop the indexes and try again:
 Record output below:
 
 ```
-
+QUERY PLAN
+`--SCAN TABLE big_cards
+Run Time: real 0.000 user 0.000000 sys 0.000098
 ```
 
 Does the update took less time without the indexes? 
