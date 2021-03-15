@@ -136,7 +136,9 @@ Note the Execution time.
 Record output below:
 
 ```
-
+QUERY PLAN
+`--SCAN TABLE big_cards
+Run Time: real 0.000 user 0.000066 sys 0.000036
 ```
 
 
